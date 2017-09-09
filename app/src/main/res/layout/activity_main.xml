@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:id="@+id/framelayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </FrameLayout>
+    <RadioGroup
+        android:background="#ffffff"
+        android:id="@+id/radiogroup"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <RadioButton
+            android:id="@+id/btn1"
+            android:checked="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_tab_home_selector"
+            />
+        <RadioButton
+            android:id="@+id/btn2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_tab_category_selector"
+            />
+        <RadioButton
+            android:id="@+id/btn3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_tab_share_selector"
+            />
+        <RadioButton
+            android:id="@+id/btn4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_tab_cart_selector"
+            />
+        <RadioButton
+            android:id="@+id/btn5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@null"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:drawableTop="@drawable/navigation_tab_personal_selector"
+            />
+
+    </RadioGroup>
+
+
+</RelativeLayout>

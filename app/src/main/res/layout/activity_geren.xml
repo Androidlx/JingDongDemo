@@ -40,7 +40,7 @@
         </RelativeLayout>
 
         <RadioGroup
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:id="@+id/zhong"
             android:layout_below="@id/top"
             android:layout_width="match_parent"
@@ -97,7 +97,7 @@
 
     <LinearLayout
         android:id="@+id/zhongshang"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:layout_below="@id/zhong"
         android:layout_width="match_parent"
@@ -206,6 +206,7 @@
         >
     </View>
     <RadioGroup
+        android:layout_marginTop="10dp"
         android:layout_below="@id/zhongxia"
         android:id="@+id/xia"
         android:orientation="horizontal"

@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.lixin.jingdongdemo.R;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -42,19 +43,27 @@ public class MyAdapter4 extends XRecyclerView.Adapter<MyAdapter4.MyViewHolder>{
     @Override
     public void onBindViewHolder(MyViewHolder holder, final int position) {
         holder.item4_text1.setText(list.get(position));
+        //checkbox点击事件
         holder.item4_cb1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 isCheckedHashMap.put(position, !isCheckedHashMap.get(position));
                 notifyDataSetChanged();
-//                if (mOnCheckedChangeListener!=null)
-//                    mOnCheckedChangeListener.oncheckedchange((Set<Map.Entry<Integer, Boolean>>) isCheckedHashMap);
+                //暴露一个接口
                 if (subClickListener!=null){
                     subClickListener.OntopicClickListener(view,isCheckedHashMap,position);
                 }
             }
         });
         holder.item4_cb1.setChecked(isCheckedHashMap.get(position));
+        holder.delete_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mOnClickListener!=null){
+                    mOnClickListener.OnClickListener(view,position);
+                }
+            }
+        });
     }
 
     @Override
@@ -66,43 +75,56 @@ public class MyAdapter4 extends XRecyclerView.Adapter<MyAdapter4.MyViewHolder>{
 
         private final TextView item4_text1;
         private final CheckBox item4_cb1;
+        private final TextView delete_text;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             item4_text1 = itemView.findViewById(R.id.item4_text1);
             item4_cb1 = itemView.findViewById(R.id.item4_cb1);
+            delete_text = itemView.findViewById(R.id.delete_text);
         }
+    }
+    public void remove(int position) {
+        list.remove(position);
+        isCheckedHashMap.remove(list.get(position));
+        notifyItemRangeRemoved(position, getItemCount());
     }
     //全选
     public Set<Map.Entry<Integer, Boolean>> selectedAll() {
         entries = isCheckedHashMap.entrySet();
-
         //如果发现有没有选中的item,我就应该去全部选中,这个变量就应该设置成true,否则就是false
         boolean shouldSelectedAll = false;
-
         //这个for循环就是判断一下接下来要全部选中,还是全部不选中
         for (Map.Entry<Integer, Boolean> entry : entries) {
             Boolean value = entry.getValue();
-
             //如果有没选中的,那就去全部选中 ,如果发现全都选中了那就全部不选中,
             if (!value) {
                 shouldSelectedAll = true;
                 break;
             }
         }
-
         //如果shouldSelectedAll为true说明需要全部选中,
         // 如果为false说明没有没有选中的,已经是是全部选中的状态,需要全部不选中
         for (Map.Entry<Integer, Boolean> entry : entries) {
             entry.setValue(shouldSelectedAll);
         }
-
         notifyDataSetChanged();
         return entries;
     }
+
     private SubClickListener subClickListener;
+    private OnClickListener mOnClickListener;
+
+    public void setOnClickListener(OnClickListener onClickListener){
+        this.mOnClickListener = onClickListener;
+    }
+
     public void setsubClickListener(SubClickListener topicClickListener) {
         this.subClickListener = topicClickListener;
+    }
+
+    public interface OnClickListener{
+        void OnClickListener(View view,int position);
     }
 
     public interface SubClickListener {

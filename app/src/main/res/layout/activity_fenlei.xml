@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
-    <TextView
+    <q.rorbin.verticaltablayout.VerticalTabLayout
+        android:id="@+id/tablayout"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:background="#EDEDED"
+        app:indicator_color="#FFFFFF"
+        app:indicator_gravity="fill"
+        app:tab_height="80dp"
+        app:tab_mode="scrollable"
+        >
+    </q.rorbin.verticaltablayout.VerticalTabLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="这是分类"
-        />
+        android:layout_height="wrap_content">
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>

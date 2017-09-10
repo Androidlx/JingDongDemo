@@ -49,4 +49,5 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     compile 'com.jcodecraeer:xrecyclerview:1.3.2'
     compile project(':QRcCodeScanLibrary')
+    compile 'q.rorbin:VerticalTabLayout:1.2.5'
 }

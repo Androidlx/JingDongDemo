@@ -71,6 +71,13 @@ public class ShoppingFragment extends Fragment {
                 price.setText("合计 ： ￥"+coutn2*50+".00");
             }
         });
+        adapter4.setOnClickListener(new MyAdapter4.OnClickListener() {
+            @Override
+            public void OnClickListener(View view, int position) {
+                adapter4.remove(position);
+                adapter4.notifyDataSetChanged();
+            }
+        });
 
     }
 
@@ -92,6 +99,7 @@ public class ShoppingFragment extends Fragment {
 
                     //如果有没选中的,那就去全部选中 ,如果发现全都选中了那就全部不选中,
                     if (!value) {
+
                     }else {
                         count++;
                     }

@@ -2,8 +2,12 @@ package com.example.lixin.jingdongdemo.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import com.bumptech.glide.Glide;
 import com.example.lixin.jingdongdemo.R;
@@ -25,6 +31,10 @@ import com.youth.banner.loader.ImageLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
+import static cn.pedant.SweetAlert.SweetAlertDialog.*;
+
 /**
  * Created by hua on 2017/9/6.
  */
@@ -34,7 +44,11 @@ public class ShouyeFragment extends QRCodeScanFragment {
     private GridLayoutManager gridLayoutManager;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
-    private ImageView saoyisao;
+    private RadioButton saoyisao;
+    private RadioGroup radioGroup;
+    private ViewPager viewPager;
+    private ArrayList<Fragment> list1;
+    private int index = 0;
 
     @Nullable
     @Override
@@ -56,32 +70,106 @@ public class ShouyeFragment extends QRCodeScanFragment {
         super.onActivityCreated(savedInstanceState);
         banner = getView().findViewById(R.id.banner);
         saoyisao = getView().findViewById(R.id.saoyisao);
-        recyclerView = getView().findViewById(R.id.recyclerview);
+        viewPager = getView().findViewById(R.id.viewpager);
+        radioGroup = getView().findViewById(R.id.radiogroup);
+        list1 = new ArrayList<>();
+        OneFragment oneFragment = new OneFragment();
+        TwoFragment twoFragment = new TwoFragment();
+        list1.add(oneFragment);
+        list1.add(twoFragment);
 
-        gridLayoutManager = new GridLayoutManager(getActivity(),2);
-        linearLayoutManager = new LinearLayoutManager(getActivity());
-        gridLayoutManager.setOrientation(GridLayoutManager.HORIZONTAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        MyAdapter2 adapter = new MyAdapter2();
-        recyclerView.setAdapter(adapter);
+
         saoyisao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startScanQRCode();
+                new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("确定要打开扫一扫功能?")
+                        .setContentText("这要调用你的相机权限")
+                        .setCancelText("不，不打开")
+                        .setConfirmText("是的，打开")
+                        .showCancelButton(true)
+                        .setCancelClickListener(new OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.cancel();
+                            }
+                        })
+                        .setConfirmClickListener(new OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                startScanQRCode();
+                                sweetAlertDialog.cancel();
+                            }
+                        })
+                        .show();
+
             }
         });
 
-        list = new ArrayList<>();
+        this.list = new ArrayList<>();
         for (String s:arr){
-            list.add(s);
+            this.list.add(s);
         }
         banner.setImageLoader(new GlideImageLoader());
-        banner.setImages(list);
+        banner.setImages(this.list);
         banner.setBannerStyle(BannerConfig.NUM_INDICATOR);
         banner.setDelayTime(2000);
         banner.start();
-    }
+        // radiogroup的切换监听事件
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, @IdRes int checkedId) {
+                // 循环遍历radiogroup的数量
+                for(int i = 0; i < radioGroup.getChildCount() ;i ++) {
+                    // 如果当前radiobutton被选中的话，将对应索引的viewpager设置成当前显示页面
+                    RadioButton rb = (RadioButton) radioGroup.getChildAt(i);
+                    if(rb.isChecked()) {
+                        viewPager.setCurrentItem(i);
+                    }
+                }
+            }
+        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // 拿到当前页面对应的radioButton
+                RadioButton radioBtn = (RadioButton) radioGroup.getChildAt(position);
+                // 循环遍历4个item，如果viewpager当前的选项卡和radiobutton的次数相同的情况，就设置成被选中
+                for(int i = 0; i < list.size(); i++) {
+                    if (position == i) {
+                        radioBtn.setChecked(true);
+                    }
+                }
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return list1.get(position);
+            }
+
+            @Override
+            public int getCount() {
+                return list1.size();
+            }
+        });
+        // 拿到RadioGroup的第1个RadioButton，设置第一个默认选中
+        RadioButton rb1 = (RadioButton) radioGroup.getChildAt(index);
+        rb1.setChecked(true);
+        // 设置viewpager默认显示第一页
+        viewPager.setCurrentItem(index);
+    }
 
     public class GlideImageLoader extends ImageLoader {
         @Override

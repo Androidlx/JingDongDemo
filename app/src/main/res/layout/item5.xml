@@ -10,13 +10,13 @@
         android:id="@+id/text_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-    <GridView
+    <com.example.lixin.jingdongdemo.view.IView.MyGrideView
         android:background="#ffffff"
-        android:layout_margin="20dp"
         android:id="@+id/gridview"
+        android:layout_margin="20dp"
         android:numColumns="3"
         android:layout_width="wrap_content"
-        android:layout_height="150dp">
-    </GridView>
+        android:layout_height="wrap_content">
+    </com.example.lixin.jingdongdemo.view.IView.MyGrideView>
 
 </LinearLayout>

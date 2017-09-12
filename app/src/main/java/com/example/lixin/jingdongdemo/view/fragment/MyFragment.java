@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.lixin.jingdongdemo.R;
+import com.example.lixin.jingdongdemo.view.adapter.MyAdapter3;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 /**

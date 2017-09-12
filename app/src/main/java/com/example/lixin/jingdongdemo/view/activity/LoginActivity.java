@@ -2,9 +2,12 @@ package com.example.lixin.jingdongdemo.view.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,8 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by hua on 2017/9/6.
  */
@@ -26,11 +31,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private TextView text_register;
     private DisplayImageOptions options;
     private SharedPreferences.Editor edit;
+    private TextInputLayout usernameWrapper;
+    private TextInputLayout passwordWrapper;
+    private Button btn_login;
+    private String username;
+    private String password;
+    private Button login_back;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        usernameWrapper = (TextInputLayout) findViewById(R.id.usernameWrapper);
+        passwordWrapper = (TextInputLayout) findViewById(R.id.passwordWrapper);
+        btn_login = (Button) findViewById(R.id.btn);
+        usernameWrapper.setHint("用户名");
+        passwordWrapper.setHint("密码");
+        btn_login.setOnClickListener(this);
+        username = usernameWrapper.getEditText().getText().toString();
+        password = usernameWrapper.getEditText().getText().toString();
 
         options = new DisplayImageOptions.Builder()
                 .cacheInMemory(true)
@@ -41,6 +61,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         text_register = (TextView) findViewById(R.id.text_register);
         ImageView qq_login = (ImageView) findViewById(R.id.qq_login);
         ImageView wechat_login = (ImageView) findViewById(R.id.wechat_login);
+        ImageView login_back = (ImageView) findViewById(R.id.login_back);
+        login_back.setOnClickListener(this);
         wechat_login.setOnClickListener(this);
         qq_login.setOnClickListener(this);
         text_register.setOnClickListener(this);
@@ -64,6 +86,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.wechat_login:
 
+                break;
+            case R.id.btn:
+                if (username.length()<6) {
+                    usernameWrapper.setError("username name must >= 6");
+                } else {
+                    usernameWrapper.setErrorEnabled(false);
+                    passwordWrapper.setErrorEnabled(false);
+                }
+            case R.id.login_back:
+                LoginActivity.this.finish();
                 break;
         }
 

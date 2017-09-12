@@ -13,6 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import com.example.lixin.jingdongdemo.R;
+import com.example.lixin.jingdongdemo.view.adapter.MyAdapter4;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
@@ -75,10 +76,8 @@ public class ShoppingFragment extends Fragment {
             @Override
             public void OnClickListener(View view, int position) {
                 adapter4.remove(position);
-                adapter4.notifyDataSetChanged();
             }
         });
-
     }
 
     private void initView() {
@@ -106,6 +105,12 @@ public class ShoppingFragment extends Fragment {
                 }
                 btn_jiesuan.setText("去结算"+"("+count+")");
                 price.setText("合计 ： ￥"+count*50+".00");
+            }
+        });
+        btn_jiesuan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
             }
         });
 

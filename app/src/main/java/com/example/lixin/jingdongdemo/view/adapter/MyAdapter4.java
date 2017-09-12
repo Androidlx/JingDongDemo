@@ -1,11 +1,10 @@
-package com.example.lixin.jingdongdemo.view.fragment;
+package com.example.lixin.jingdongdemo.view.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lixin.jingdongdemo.R;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
@@ -88,6 +87,9 @@ public class MyAdapter4 extends XRecyclerView.Adapter<MyAdapter4.MyViewHolder>{
         list.remove(position);
         isCheckedHashMap.remove(list.get(position));
         notifyItemRangeRemoved(position, getItemCount());
+        if (subClickListener1!=null){
+            subClickListener1.OntopicClickListener1(isCheckedHashMap);
+        }
     }
     //全选
     public Set<Map.Entry<Integer, Boolean>> selectedAll() {
@@ -112,9 +114,9 @@ public class MyAdapter4 extends XRecyclerView.Adapter<MyAdapter4.MyViewHolder>{
         return entries;
     }
 
-    private SubClickListener subClickListener;
-    private OnClickListener mOnClickListener;
 
+    private OnClickListener mOnClickListener;
+    private SubClickListener subClickListener;
     public void setOnClickListener(OnClickListener onClickListener){
         this.mOnClickListener = onClickListener;
     }
@@ -131,4 +133,12 @@ public class MyAdapter4 extends XRecyclerView.Adapter<MyAdapter4.MyViewHolder>{
         void OntopicClickListener(View v,HashMap<Integer, Boolean> isCheckedHashMap , int position);
     }
 
+    private SubClickListener1 subClickListener1;
+
+    public void setsubClickListener1(SubClickListener1 topicClickListener1) {
+        this.subClickListener1 = topicClickListener1;
+    }
+    public interface SubClickListener1 {
+        void OntopicClickListener1(HashMap<Integer, Boolean> isCheckedHashMap);
+    }
 }

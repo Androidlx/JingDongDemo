@@ -1,6 +1,7 @@
 package com.example.lixin.jingdongdemo.view.activity;
 
 import android.support.annotation.IdRes;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private FenxiangFragment fenhxiangFragment;
     private ShoppingFragment shoppingFragment;
     private GerenFragment gerenFragment;
+    private Fragment currentFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,42 +51,39 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager().beginTransaction().show(shouyeFragment)
                 .hide(fenleiFragment).hide(fenhxiangFragment).hide(shoppingFragment)
                 .hide(gerenFragment).commit();
+
+        currentFragment=shouyeFragment;
+
         mRadiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
+
+               Fragment changeToFragment=null;
                 switch (i){
-
                     case R.id.btn1:
-                        getSupportFragmentManager().beginTransaction().show(shouyeFragment)
-                                .hide(fenleiFragment).hide(fenhxiangFragment).hide(shoppingFragment)
-                                .hide(gerenFragment).commit();
-
+                        changeToFragment=shouyeFragment;
                         break;
                     case R.id.btn2:
-                        getSupportFragmentManager().beginTransaction().show(fenleiFragment)
-                                .hide(shouyeFragment).hide(fenhxiangFragment).hide(shoppingFragment)
-                                .hide(gerenFragment).commit();
-
+                        changeToFragment=fenleiFragment;
                         break;
                     case R.id.btn3:
-                        getSupportFragmentManager().beginTransaction().show(fenhxiangFragment)
-                                .hide(shouyeFragment).hide(fenleiFragment).hide(shoppingFragment)
-                                .hide(gerenFragment).commit();
-
+                        changeToFragment=fenhxiangFragment;
                         break;
                     case R.id.btn4:
-                        getSupportFragmentManager().beginTransaction().show(shoppingFragment)
-                                .hide(fenleiFragment).hide(shouyeFragment).hide(fenhxiangFragment)
-                                .hide(gerenFragment).commit();
-
+                        changeToFragment=shoppingFragment;
                         break;
                     case R.id.btn5:
-                        getSupportFragmentManager().beginTransaction().show(gerenFragment)
-                                .hide(fenleiFragment).hide(fenhxiangFragment).hide(shouyeFragment)
-                                .hide(shoppingFragment).commit();
-
+                        changeToFragment=gerenFragment;
                         break;
 
+                }
+
+                if(changeToFragment.equals(currentFragment)){
+                    return;
+                }else {
+                    getSupportFragmentManager().beginTransaction().show(changeToFragment)
+                            .hide(currentFragment).commit();
+                    currentFragment = changeToFragment;
                 }
             }
         });
